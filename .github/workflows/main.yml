@@ -1,0 +1,51 @@
+name: CI/CD
+
+# Controls when the workflow will run
+on:
+  # Activates the workflow; then there is a push to the main or master branch
+  push:
+    branches: main
+
+  # allows you to manually execute this pipeline from the Actions tab.
+  workflow_dispatch:
+
+# A workflow run consists of one or more jobs that can be executed either sequentially or concurrently.
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    #
+    steps:
+      - uses: actions/checkout@v2  
+      - uses: actions/setup-python@v2  
+      - run: pip install -r requirements.txt  # install requirements to enable GitHub run tests
+      - run:  python test_main.py
+
+      - uses: akhileshns/heroku-deploy@v3.12.12 #
+        with:
+          heroku_api_key: 7c524b93-c8b5-414b-a82b-ae3f2917ca86
+          heroku_app_name: deploy-flask
+          heroku_email: ericmuthuipatch22@gmail.com
+
+
+
+
+# permisions:
+#     contents: write
+    
+
+       
+    # steps:
+    #     - uses: actions/checkout@v3
+    #     - uses: actions/setup-python@v4
+    #     - run: python app.py
+        
+       
+
+  # steps:
+    #   - uses: actions/checkout@v2  
+    #   - uses: actions/setup-python@v2  
+    #   - run: pip install -r requirements.txt  
+    #   - run:  python test_app.py
